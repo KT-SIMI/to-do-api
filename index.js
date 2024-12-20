@@ -40,7 +40,7 @@ const sessOption = {
 };
 
 const corsOptions = {
-  origin: ["http://localhost:5008"],
+  origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-83jh0sb0d-ikeoluwakitan-oyewoles-projects.vercel.app"],
   credentials: true,
   optionsSuccessStatus: 200,
 };

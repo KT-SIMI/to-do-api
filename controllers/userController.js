@@ -12,15 +12,11 @@ exports.signup = catchAsync( async (req, res) => {
         password
     } = req.body
 
-    console.log(firstname)
-    
    
     const hashedPassword = await bcrypt.hash(
         password, 
         parseInt(process.env.PWD_HASH_LENGTH)
     )
-    
-    
 
     const user = new User({
         firstname,
@@ -59,7 +55,7 @@ exports.login = catchAsync (async (req, res) => {
     res.status(200).json({ status: 'success', msg: "Logged in successully", data: q })
 })
 
-exports.index = catchAsync( async (req, res) => {
+// exports.index = catchAsync( async (req, res) => {
 
-    res.status(200).json({ status: 'success', msg: 'Index' })
-})
+//     res.status(200).json({ status: 'success', msg: 'Index' })
+// })
