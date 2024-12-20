@@ -59,3 +59,7 @@ exports.login = catchAsync (async (req, res) => {
     res.status(200).json({ status: 'success', msg: "Logged in successully", data: q })
 })
 
+exports.index = catchAsync( async (req, res) => {
+
+    res.status(200).json({ status: 'success', msg: 'Index' })
+})
