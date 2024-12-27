@@ -42,7 +42,7 @@ const sessOption = {
 };
 
 const corsOptions = {
-  origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-api-drab.vercel.app", "hhttps://obscure-couscous-gv4gxx79wpwhwppx-3000.app.github.dev/"],
+  origin: ["https://to-do-api-drab.vercel.app", "https://obscure-couscous-gv4gxx79wpwhwppx-3000.app.github.dev", "http://localhost:3000", "http://localhost:5008"],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
