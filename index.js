@@ -53,6 +53,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session(sessOption));
 app.use(cors(corsOptions));
 
+app.use((req, res, next) => {
+  console.log('Request Headers:', req.headers); // Logs the headers of each request
+  next(); // Passes control to the next middleware or route
+});
+
 
 app.use('/api', userRouter)
 app.use('/api/authorized', auth, authorizedRouter)
