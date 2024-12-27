@@ -22,23 +22,11 @@ exports.createTask = catchAsync(async (req, res) => {
     res.status(200).json({ status: "success", msg: "Task created", data: task})
 })
 
-exports.logout = catchAsync (async (req, res) => {
-    req.session.token = null;
-  req.session.save(function (err) {
-    if (err) next(err);
-
-    req.session.regenerate(function (err) {
-      if (err) next(err);
-
-      res.status(200).json({ status: 'success', msg: 'Logged out'})
-    });
-  });
-})
 
 exports.index = catchAsync (async (req, res) => {
     const userId = req.user.userId
     const user = await User.findOne({ _id: userId }, { password: 0 })
-    const tasks = await Task.findOne({ userId })
+    const tasks = await Task.find({ userId })
 
     res.status(200).json({ status: 'success', msg: 'Contents Loaded', data: {
         user,
@@ -70,5 +58,5 @@ exports.completeTask = catchAsync( async (req, res) => {
 
     await Task.updateOne({ _id: taskId }, { isComplete: true })
 
-    res.status(200).json({ status: 'success', msg: 'Task Completed', data: task })
+    res.status(200).json({ status: 'success', msg: 'Task Completed' })
 })

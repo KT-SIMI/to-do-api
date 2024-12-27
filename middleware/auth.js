@@ -3,35 +3,25 @@ const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 
 const authenticate = catchAsync(async (req, res, next) => {
-  
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  } else if (req.session.token) {
-    token = req.session.token;
-    req.session.token = token;
-    
-  } else if (req.cookies.sessionId) {
-    token = req.cookies.sessionId;
-  }
-  if (!token) {
-    return next(
-      new AppError(401, "You are not logged in! Please log in to get access")
-    );
-  }
-
   try {
+    let token = req.session?.token || req.session?.cookie || null;
+
+    if (!token) {
+      console.error("[Auth Middleware] No token found!");
+      return next(new AppError(401, "Unauthorized! Please log in."));
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
+    // console.log("[Auth Middleware] Decoded Token:", decoded);
 
     next();
   } catch (err) {
+    console.error("[Auth Middleware Error]:", err);
     return next(new AppError(401, "Invalid token"));
   }
 });
+
 
 const auth = (req, res, next) => {
   authenticate(req, res, () => {
@@ -39,7 +29,8 @@ const auth = (req, res, next) => {
     if (req?.user) {
       next();
     } else {
-        return next(new AppError(403, 'Unauthorized'));
+      console.log(req.user)
+        return next(new AppError(401, 'Unauthorized'));
     }
   });
 };

@@ -34,6 +34,7 @@ exports.signup = catchAsync( async (req, res) => {
 
 exports.login = catchAsync (async (req, res) => {
     const { email, password } = req.body
+    // console.log(req.body)
 
     if (!email || !password) return res.status(401).json({ status: "error", msg: "Email and/or password is invalid" })
 
@@ -45,9 +46,9 @@ exports.login = catchAsync (async (req, res) => {
 
     if (!isPasswordValid) return res.status(401).json({ status: 'error', msg: "Email and/or passsword is invalid" })
  
-    const payload = { userId: user._id, role: user.role }
+    const payload = { userId: user._id }
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' })
-
+   
     req.session.token = token;
 
     const q = await User.findOne({ _id: user._id }, { password: 0 });
@@ -55,7 +56,21 @@ exports.login = catchAsync (async (req, res) => {
     res.status(200).json({ status: 'success', msg: "Logged in successully", data: q })
 })
 
-// exports.index = catchAsync( async (req, res) => {
+exports.index = catchAsync( async (req, res) => {
 
-//     res.status(200).json({ status: 'success', msg: 'Index' })
-// })
+    res.status(200).json({ status: 'success', msg: 'Index' })
+})
+
+
+exports.logout = catchAsync (async (req, res) => {
+    req.session.token = null;
+  req.session.save(function (err) {
+    if (err) next(err);
+
+    req.session.regenerate(function (err) {
+      if (err) next(err);
+
+      res.status(200).json({ status: 'success', msg: 'Logged out'})
+    });
+  });
+})

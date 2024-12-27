@@ -25,9 +25,12 @@ const app = express();
 
 const sessOption = {
   secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
   cookie: {
     secure: false,
     httpOnly: true,
+    sameSite: 'lax',
     maxAge: 72 * 60 * 60 * 1000,
   },
   resave: false,
@@ -43,15 +46,18 @@ const corsOptions = {
   origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-83jh0sb0d-ikeoluwakitan-oyewoles-projects.vercel.app"],
   credentials: true,
   optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 
 app.use(express.json())
-app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessOption));
+app.use(cors(corsOptions));
+
 
 app.use('/api', userRouter)
 app.use('/api/authorized', auth, authorizedRouter)
+
 
 const port = 5008
 app.listen(5008, () => {
