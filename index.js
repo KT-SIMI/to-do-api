@@ -52,7 +52,7 @@ const corsOptions = {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessOption));
-app.use(cors(corsOptions));
+app.use(cors());
 // app.use(cors(corssOptions))
 app.options('*', cors(corsOptions)); // Allow preflight requests
 
