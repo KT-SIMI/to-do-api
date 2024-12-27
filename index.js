@@ -22,28 +22,27 @@ require("dotenv").config();
 
 const app = express();
 
+const isProduction = process.env.NODE_ENV === "prod"; 
 
 const sessOption = {
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: isProduction,
     httpOnly: true,
-    sameSite: 'lax',
-    maxAge: 72 * 60 * 60 * 1000,
+    sameSite: isProduction ? "strict" : "lax", 
+    maxAge: 720 * 60 * 60 * 1000, 
   },
-  resave: false,
-  saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_STORE,
-    ttl: 400 * 60 * 60,
+    ttl: 400 * 60 * 60, // 400 hours
     autoRemove: "native",
   }),
 };
 
 const corsOptions = {
-  origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-83jh0sb0d-ikeoluwakitan-oyewoles-projects.vercel.app"],
+  origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-api-drab.vercel.app"],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
