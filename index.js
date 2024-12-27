@@ -42,7 +42,7 @@ const sessOption = {
 };
 
 const corsOptions = {
-  origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-api-drab.vercel.app", "https://obscure-couscous-gv4gxx79wpwhwppx-3000.app.github.dev"],
+  origin: ["http://localhost:5008", "http://localhost:3000", "https://to-do-api-drab.vercel.app", "hhttps://obscure-couscous-gv4gxx79wpwhwppx-3000.app.github.dev/"],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -52,15 +52,7 @@ const corsOptions = {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessOption));
-app.use(cors());
-// app.use(cors(corssOptions))
-app.options('*', cors(corsOptions)); // Allow preflight requests
-
-
-app.use((req, res, next) => {
-  console.log('Request Headers:', req.headers); // Logs the headers of each request
-  next(); // Passes control to the next middleware or route
-});
+app.use(cors(corsOptions));
 
 
 app.use('/api', userRouter)
