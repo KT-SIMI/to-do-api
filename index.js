@@ -48,10 +48,14 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(session(sessOption));
 app.use(cors(corsOptions));
+// app.use(cors(corssOptions))
+app.options('*', cors(corsOptions)); // Allow preflight requests
+
 
 app.use((req, res, next) => {
   console.log('Request Headers:', req.headers); // Logs the headers of each request
