@@ -5,7 +5,7 @@ const session = require("express-session")
 const MongoStore = require("connect-mongo")
 const userRouter = require('./router/userRouter')
 
-const WebSocket = require('ws');
+// const WebSocket = require('ws');
 const { auth } = require("./middleware/auth")
 const authorizedRouter = require('./router/authorizedRouter')
 require("dotenv").config();
@@ -56,11 +56,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session(sessOption));
 app.use(cors(corsOptions));
 
-const server = new WebSocket.Server({ port: 3000 });
+// const server = new WebSocket.Server({ port: 3000 });
 
-server.on('connection', (ws, req) => {
-  console.log('Client connected with protocol:', req.headers['origin']);
-});
+// server.on('connection', (ws, req) => {
+//   console.log('Client connected with protocol:', req.headers['origin']);
+// });
 
 
 
